@@ -67,9 +67,7 @@ export default class SubMenu extends AbstractMenu {
         if (this.props.forceOpen || this.state.visible) {
             const wrapper = window.requestAnimationFrame || setTimeout;
             wrapper(() => {
-                const styles = this.props.rtl
-                                ? this.getRTLMenuPosition()
-                                : this.getMenuPosition();
+                const styles = this.getMenuPosition();
 
                 this.subMenu.style.removeProperty('top');
                 this.subMenu.style.removeProperty('bottom');
@@ -111,42 +109,118 @@ export default class SubMenu extends AbstractMenu {
         this.unregisterHandlers();
     }
 
-    getMenuPosition = () => {
-        const { innerWidth, innerHeight } = window;
-        const rect = this.subMenu.getBoundingClientRect();
-        const position = {};
 
-        if (rect.bottom > innerHeight) {
-            position.bottom = 0;
-        } else {
-            position.top = 0;
+    getHorizontalPosition = (menuRect, areaRect) => {
+        const { innerWidth } = window;
+
+        if (areaRect.right > innerWidth) {
+            // Clamp
+            if (areaRect.left < 0) {
+                return this.limitHorizontally(menuRect, areaRect);
+            }
+
+            // Left position
+            return {
+                right: '100%'
+            };
         }
 
-        if (rect.right < innerWidth) {
-            position.left = '100%';
-        } else {
-            position.right = '100%';
-        }
-
-        return position;
+        // Right position
+        return {
+            left: '100%'
+        };
     }
 
-    getRTLMenuPosition = () => {
-        const { innerHeight } = window;
-        const rect = this.subMenu.getBoundingClientRect();
-        const position = {};
+    limitHorizontally = (menuRect, areaRect) => {
+        const { innerWidth } = window;
 
-        if (rect.bottom > innerHeight) {
-            position.bottom = 0;
+        // Clamp to left
+        if ((innerWidth - menuRect.right) < menuRect.left) {
+            return {
+                right: `calc(100% - ${0 - areaRect.left}px`
+            };
+        }
+
+        // Clamp to right
+        return {
+            left: `calc(100% - ${areaRect.right - innerWidth}px)`
+        };
+    }
+
+    limitVertically = (menuRect, areaRect) => {
+        const { innerHeight } = window;
+
+        // Clamp to top
+        if ((innerHeight - menuRect.bottom) < menuRect.top) {
+            return {
+                bottom: `${areaRect.top}px`
+            };
+        }
+
+        // Clamp to bottom
+        return {
+            top: `${innerHeight - areaRect.bottom}px`
+        };
+    }
+
+    getRTLHorizontalPosition = (menuRect, areaRect) => {
+        const { innerWidth } = window;
+
+        if (areaRect.left < 0) {
+            // Clamp
+            if (areaRect.right > innerWidth) {
+                return this.limitHorizontally(menuRect, areaRect);
+            }
+
+            // Right position
+            return {
+                left: '100%'
+            };
+        }
+
+        // Left position
+        return {
+            right: '100%'
+        };
+    }
+
+    getMenuPosition = () => {
+        const { innerHeight } = window;
+        const { rtl } = this.props;
+
+        const submenuRect = this.subMenu.getBoundingClientRect();
+        const menuRect = this.menu.getBoundingClientRect();
+        const padding = 10;
+
+        const areaRect = {
+            top: menuRect.bottom - submenuRect.height - padding,
+            left: menuRect.left - submenuRect.width - padding,
+            bottom: menuRect.top + submenuRect.height + padding,
+            right: menuRect.right + submenuRect.width + padding
+        };
+
+        let position = {};
+
+        // Vertical positioning
+        if (areaRect.bottom > innerHeight) {
+            if (areaRect.top < 0) {
+                // Clamp
+                position = Object.assign(position,
+                    this.limitVertically(menuRect, areaRect)
+                );
+            } else {
+                // Top position
+                position.bottom = 0;
+            }
         } else {
+            // Bottom position
             position.top = 0;
         }
 
-        if (rect.left < 0) {
-            position.left = '100%';
-        } else {
-            position.right = '100%';
-        }
+        // Horizontal positioning
+        position = Object.assign(position,
+            this[`get${rtl ? 'RTL' : ''}HorizontalPosition`](menuRect, areaRect)
+        );
 
         return position;
     }
