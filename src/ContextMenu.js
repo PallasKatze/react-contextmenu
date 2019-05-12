@@ -197,7 +197,8 @@ export default class ContextMenu extends AbstractMenu {
         return (
             <nav
                 role='menu' tabIndex='-1' ref={this.menuRef} style={inlineStyle} className={menuClassnames}
-                onContextMenu={this.handleContextMenu} onMouseLeave={this.handleMouseLeave}>
+                onContextMenu={this.handleContextMenu} onMouseLeave={this.handleMouseLeave}
+                onScroll={e => e.stopPropagation()}>
                 {this.renderChildren(children)}
             </nav>
         );

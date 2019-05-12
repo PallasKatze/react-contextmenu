@@ -207,7 +207,10 @@ var ContextMenu = function (_AbstractMenu) {
                 'nav',
                 {
                     role: 'menu', tabIndex: '-1', ref: this.menuRef, style: inlineStyle, className: menuClassnames,
-                    onContextMenu: this.handleContextMenu, onMouseLeave: this.handleMouseLeave },
+                    onContextMenu: this.handleContextMenu, onMouseLeave: this.handleMouseLeave,
+                    onScroll: function onScroll(e) {
+                        return e.stopPropagation();
+                    } },
                 this.renderChildren(children)
             );
         }
