@@ -285,7 +285,7 @@ var SubMenu = function (_AbstractMenu) {
     }, {
         key: 'render',
         value: function render() {
-            var _cx;
+            var _cx2;
 
             var _props = this.props,
                 children = _props.children,
@@ -299,13 +299,13 @@ var SubMenu = function (_AbstractMenu) {
                 ref: this.menuRef,
                 onMouseEnter: this.handleMouseEnter,
                 onMouseLeave: this.handleMouseLeave,
-                className: cx(cssClasses.menuItem, cssClasses.subMenu, attributes.listClassName),
+                className: cx(cssClasses.menuItem, cssClasses.subMenu, attributes.listClassName, _defineProperty({}, cx(cssClasses.menuItemDisabled, attributes.disabledClassName), disabled)),
                 style: {
                     position: 'relative'
                 }
             };
             var menuItemProps = {
-                className: cx(cssClasses.menuItem, attributes.className, (_cx = {}, _defineProperty(_cx, cx(cssClasses.menuItemDisabled, attributes.disabledClassName), disabled), _defineProperty(_cx, cx(cssClasses.menuItemActive, attributes.visibleClassName), visible), _defineProperty(_cx, cx(cssClasses.menuItemSelected, attributes.selectedClassName), selected), _cx)),
+                className: cx(cssClasses.menuItem, attributes.className, (_cx2 = {}, _defineProperty(_cx2, cx(cssClasses.menuItemDisabled, attributes.disabledClassName), disabled), _defineProperty(_cx2, cx(cssClasses.menuItemActive, attributes.visibleClassName), visible), _defineProperty(_cx2, cx(cssClasses.menuItemSelected, attributes.selectedClassName), selected), _cx2)),
                 onMouseMove: this.props.onMouseMove,
                 onMouseOut: this.props.onMouseOut,
                 onClick: this.handleClick

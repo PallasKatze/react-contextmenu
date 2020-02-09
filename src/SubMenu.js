@@ -293,7 +293,9 @@ export default class SubMenu extends AbstractMenu {
             ref: this.menuRef,
             onMouseEnter: this.handleMouseEnter,
             onMouseLeave: this.handleMouseLeave,
-            className: cx(cssClasses.menuItem, cssClasses.subMenu, attributes.listClassName),
+            className: cx(cssClasses.menuItem, cssClasses.subMenu, attributes.listClassName, {
+                [cx(cssClasses.menuItemDisabled, attributes.disabledClassName)]: disabled
+            }),
             style: {
                 position: 'relative'
             }
