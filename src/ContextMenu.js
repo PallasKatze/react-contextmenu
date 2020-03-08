@@ -18,6 +18,7 @@ export default class ContextMenu extends AbstractMenu {
         hideOnLeave: PropTypes.bool,
         onHide: PropTypes.func,
         onMouseLeave: PropTypes.func,
+        onClick: PropTypes.func,
         onShow: PropTypes.func,
         style: PropTypes.object
     };
@@ -28,6 +29,7 @@ export default class ContextMenu extends AbstractMenu {
         hideOnLeave: false,
         onHide() { return null; },
         onMouseLeave() { return null; },
+        onClick() { return null; },
         onShow() { return null; },
         style: {}
     };
@@ -135,6 +137,10 @@ export default class ContextMenu extends AbstractMenu {
         if (this.props.hideOnLeave) hideMenu();
     }
 
+    handleScroll = (e) => {
+        e.stopPropagation();
+    }
+
     handleContextMenu = (e) => {
         if (process.env.NODE_ENV === 'production') {
             e.preventDefault();
@@ -183,7 +189,7 @@ export default class ContextMenu extends AbstractMenu {
     }
 
     render() {
-        const { children, className, style } = this.props;
+        const { children, className, style, onClick } = this.props;
         const { isVisible } = this.state;
         const inlineStyle = assign(
           {},
@@ -198,7 +204,8 @@ export default class ContextMenu extends AbstractMenu {
             <nav
                 role='menu' tabIndex='-1' ref={this.menuRef} style={inlineStyle} className={menuClassnames}
                 onContextMenu={this.handleContextMenu} onMouseLeave={this.handleMouseLeave}
-                onScroll={e => e.stopPropagation()}>
+                onScroll={this.handleScroll}
+                onClick={onClick}>
                 {this.renderChildren(children)}
             </nav>
         );

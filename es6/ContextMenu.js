@@ -78,6 +78,10 @@ var ContextMenu = function (_AbstractMenu) {
             if (_this.props.hideOnLeave) hideMenu();
         };
 
+        _this.handleScroll = function (e) {
+            e.stopPropagation();
+        };
+
         _this.handleContextMenu = function (e) {
             if (process.env.NODE_ENV === 'production') {
                 e.preventDefault();
@@ -197,7 +201,8 @@ var ContextMenu = function (_AbstractMenu) {
             var _props = this.props,
                 children = _props.children,
                 className = _props.className,
-                style = _props.style;
+                style = _props.style,
+                onClick = _props.onClick;
             var isVisible = this.state.isVisible;
 
             var inlineStyle = assign({}, style, { position: 'fixed', opacity: 0, pointerEvents: 'none' });
@@ -208,9 +213,8 @@ var ContextMenu = function (_AbstractMenu) {
                 {
                     role: 'menu', tabIndex: '-1', ref: this.menuRef, style: inlineStyle, className: menuClassnames,
                     onContextMenu: this.handleContextMenu, onMouseLeave: this.handleMouseLeave,
-                    onScroll: function onScroll(e) {
-                        return e.stopPropagation();
-                    } },
+                    onScroll: this.handleScroll,
+                    onClick: onClick },
                 this.renderChildren(children)
             );
         }
@@ -227,6 +231,7 @@ ContextMenu.propTypes = {
     hideOnLeave: PropTypes.bool,
     onHide: PropTypes.func,
     onMouseLeave: PropTypes.func,
+    onClick: PropTypes.func,
     onShow: PropTypes.func,
     style: PropTypes.object
 };
@@ -238,6 +243,9 @@ ContextMenu.defaultProps = {
         return null;
     },
     onMouseLeave: function onMouseLeave() {
+        return null;
+    },
+    onClick: function onClick() {
         return null;
     },
     onShow: function onShow() {
