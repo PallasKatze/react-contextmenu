@@ -42,14 +42,19 @@ var MenuItem = function (_Component) {
             if (_this.props.preventClose) return;
 
             hideMenu();
+        }, _this.saveRef = function (ref) {
+            _this.ref = ref;
+
+            if (_this.props.innerRef) {
+                _this.props.innerRef(ref);
+            }
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(MenuItem, [{
         key: 'render',
         value: function render() {
-            var _cx,
-                _this2 = this;
+            var _cx;
 
             var _props = this.props,
                 disabled = _props.disabled,
@@ -65,9 +70,7 @@ var MenuItem = function (_Component) {
                 _extends({}, attributes, { className: menuItemClassNames,
                     role: 'menuitem', tabIndex: '-1', 'aria-disabled': disabled ? 'true' : 'false',
                     'aria-orientation': divider ? 'horizontal' : null,
-                    ref: function ref(_ref2) {
-                        _this2.ref = _ref2;
-                    },
+                    ref: this.saveRef,
                     onMouseMove: this.props.onMouseMove, onMouseLeave: this.props.onMouseLeave,
                     onTouchEnd: this.handleClick, onClick: this.handleClick }),
                 divider ? null : children
@@ -87,6 +90,7 @@ MenuItem.propTypes = {
     preventClose: PropTypes.bool,
     onClick: PropTypes.func,
     selected: PropTypes.bool,
+    innerRef: PropTypes.func,
     onMouseMove: PropTypes.func,
     onMouseLeave: PropTypes.func
 };
@@ -102,6 +106,9 @@ MenuItem.defaultProps = {
 
     children: null,
     selected: false,
+    innerRef: function innerRef() {
+        return null;
+    },
     onMouseMove: function onMouseMove() {
         return null;
     },

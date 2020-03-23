@@ -16,6 +16,7 @@ export default class MenuItem extends Component {
         preventClose: PropTypes.bool,
         onClick: PropTypes.func,
         selected: PropTypes.bool,
+        innerRef: PropTypes.func,
         onMouseMove: PropTypes.func,
         onMouseLeave: PropTypes.func
     };
@@ -29,6 +30,7 @@ export default class MenuItem extends Component {
         onClick() { return null; },
         children: null,
         selected: false,
+        innerRef: () => null,
         onMouseMove: () => null,
         onMouseLeave: () => null
     };
@@ -50,6 +52,14 @@ export default class MenuItem extends Component {
         hideMenu();
     }
 
+    saveRef = (ref) => {
+        this.ref = ref;
+
+        if (this.props.innerRef) {
+            this.props.innerRef(ref);
+        }
+    }
+
     render() {
         const { disabled, divider, children, attributes, selected } = this.props;
         const menuItemClassNames = cx(cssClasses.menuItem, attributes.className, {
@@ -63,7 +73,7 @@ export default class MenuItem extends Component {
                 {...attributes} className={menuItemClassNames}
                 role='menuitem' tabIndex='-1' aria-disabled={disabled ? 'true' : 'false'}
                 aria-orientation={divider ? 'horizontal' : null}
-                ref={(ref) => { this.ref = ref; }}
+                ref={this.saveRef}
                 onMouseMove={this.props.onMouseMove} onMouseLeave={this.props.onMouseLeave}
                 onTouchEnd={this.handleClick} onClick={this.handleClick}>
                 {divider ? null : children}
