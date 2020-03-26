@@ -97,6 +97,8 @@ var ContextMenuTrigger = function (_Component) {
             } else {
                 showMenu(showMenuConfig);
             }
+        }, _this.handleContextMenuClose = function () {
+            hideMenu();
         }, _this.elemRef = function (c) {
             _this.elem = c;
         }, _temp), _possibleConstructorReturn(_this, _ret);

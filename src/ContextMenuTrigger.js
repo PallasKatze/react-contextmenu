@@ -117,6 +117,10 @@ export default class ContextMenuTrigger extends Component {
         }
     }
 
+    handleContextMenuClose = () => {
+        hideMenu();
+    }
+
     elemRef = (c) => {
         this.elem = c;
     }
