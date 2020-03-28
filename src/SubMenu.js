@@ -21,7 +21,8 @@ export default class SubMenu extends AbstractMenu {
         onMouseOut: PropTypes.func,
         forceOpen: PropTypes.bool,
         forceClose: PropTypes.func,
-        parentKeyNavigationHandler: PropTypes.func
+        parentKeyNavigationHandler: PropTypes.func,
+        itemRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
     };
 
     static defaultProps = {
@@ -308,7 +309,8 @@ export default class SubMenu extends AbstractMenu {
             }),
             onMouseMove: this.props.onMouseMove,
             onMouseOut: this.props.onMouseOut,
-            onClick: this.handleClick
+            onClick: this.handleClick,
+            ref: this.props.itemRef
         };
         const subMenuProps = {
             ref: this.subMenuRef,

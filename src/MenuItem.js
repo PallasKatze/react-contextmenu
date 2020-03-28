@@ -16,7 +16,7 @@ export default class MenuItem extends Component {
         preventClose: PropTypes.bool,
         onClick: PropTypes.func,
         selected: PropTypes.bool,
-        innerRef: PropTypes.func,
+        itemRef: PropTypes.func,
         onMouseMove: PropTypes.func,
         onMouseLeave: PropTypes.func
     };
@@ -30,7 +30,7 @@ export default class MenuItem extends Component {
         onClick() { return null; },
         children: null,
         selected: false,
-        innerRef: () => null,
+        itemRef: () => null,
         onMouseMove: () => null,
         onMouseLeave: () => null
     };
@@ -55,8 +55,8 @@ export default class MenuItem extends Component {
     saveRef = (ref) => {
         this.ref = ref;
 
-        if (this.props.innerRef) {
-            this.props.innerRef(ref);
+        if (this.props.itemRef) {
+            this.props.itemRef(ref);
         }
     }
 
