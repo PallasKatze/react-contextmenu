@@ -45,8 +45,8 @@ var MenuItem = function (_Component) {
         }, _this.saveRef = function (ref) {
             _this.ref = ref;
 
-            if (_this.props.innerRef) {
-                _this.props.innerRef(ref);
+            if (_this.props.itemRef) {
+                _this.props.itemRef(ref);
             }
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
@@ -90,7 +90,7 @@ MenuItem.propTypes = {
     preventClose: PropTypes.bool,
     onClick: PropTypes.func,
     selected: PropTypes.bool,
-    innerRef: PropTypes.func,
+    itemRef: PropTypes.func,
     onMouseMove: PropTypes.func,
     onMouseLeave: PropTypes.func
 };
@@ -106,7 +106,7 @@ MenuItem.defaultProps = {
 
     children: null,
     selected: false,
-    innerRef: function innerRef() {
+    itemRef: function itemRef() {
         return null;
     },
     onMouseMove: function onMouseMove() {

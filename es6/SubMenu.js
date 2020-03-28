@@ -117,13 +117,13 @@ var SubMenu = function (_AbstractMenu) {
 
             var submenuRect = _this.subMenu.getBoundingClientRect();
             var menuRect = _this.menu.getBoundingClientRect();
-            var padding = 10;
+            var areaPadding = 10;
 
             var areaRect = {
-                top: menuRect.bottom - submenuRect.height - padding,
-                left: menuRect.left - submenuRect.width - padding,
-                bottom: menuRect.top + submenuRect.height + padding,
-                right: menuRect.right + submenuRect.width + padding
+                top: menuRect.bottom - submenuRect.height - areaPadding,
+                left: menuRect.left - submenuRect.width - areaPadding,
+                bottom: menuRect.top + submenuRect.height + areaPadding,
+                right: menuRect.right + submenuRect.width + areaPadding
             };
 
             var position = {};
@@ -135,11 +135,11 @@ var SubMenu = function (_AbstractMenu) {
                     position = Object.assign(position, _this.limitVertically(menuRect, areaRect));
                 } else {
                     // Top position
-                    position.bottom = 0;
+                    position.bottom = '-' + getComputedStyle(_this.subMenu).paddingBottom;
                 }
             } else {
                 // Bottom position
-                position.top = 0;
+                position.top = '-' + getComputedStyle(_this.subMenu).paddingTop;
             }
 
             // Horizontal positioning
@@ -201,11 +201,13 @@ var SubMenu = function (_AbstractMenu) {
         _this.registerHandlers = function () {
             document.removeEventListener('keydown', _this.props.parentKeyNavigationHandler);
             document.addEventListener('keydown', _this.handleKeyNavigation);
+            document.addEventListener('dragstart', _this.hideMenu);
         };
 
         _this.unregisterHandlers = function () {
             document.removeEventListener('keydown', _this.handleKeyNavigation);
             document.addEventListener('keydown', _this.props.parentKeyNavigationHandler);
+            document.removeEventListener('dragstart', _this.hideMenu);
         };
 
         _this.state = assign({}, _this.state, {
@@ -308,7 +310,8 @@ var SubMenu = function (_AbstractMenu) {
                 className: cx(cssClasses.menuItem, attributes.className, (_cx2 = {}, _defineProperty(_cx2, cx(cssClasses.menuItemDisabled, attributes.disabledClassName), disabled), _defineProperty(_cx2, cx(cssClasses.menuItemActive, attributes.visibleClassName), visible), _defineProperty(_cx2, cx(cssClasses.menuItemSelected, attributes.selectedClassName), selected), _cx2)),
                 onMouseMove: this.props.onMouseMove,
                 onMouseOut: this.props.onMouseOut,
-                onClick: this.handleClick
+                onClick: this.handleClick,
+                ref: this.props.itemRef
             };
             var subMenuProps = {
                 ref: this.subMenuRef,
@@ -354,7 +357,8 @@ SubMenu.propTypes = {
     onMouseOut: PropTypes.func,
     forceOpen: PropTypes.bool,
     forceClose: PropTypes.func,
-    parentKeyNavigationHandler: PropTypes.func
+    parentKeyNavigationHandler: PropTypes.func,
+    itemRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
 };
 SubMenu.defaultProps = {
     disabled: false,
