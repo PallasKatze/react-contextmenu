@@ -191,13 +191,13 @@ export default class SubMenu extends AbstractMenu {
 
         const submenuRect = this.subMenu.getBoundingClientRect();
         const menuRect = this.menu.getBoundingClientRect();
-        const padding = 10;
+        const areaPadding = 10;
 
         const areaRect = {
-            top: menuRect.bottom - submenuRect.height - padding,
-            left: menuRect.left - submenuRect.width - padding,
-            bottom: menuRect.top + submenuRect.height + padding,
-            right: menuRect.right + submenuRect.width + padding
+            top: menuRect.bottom - submenuRect.height - areaPadding,
+            left: menuRect.left - submenuRect.width - areaPadding,
+            bottom: menuRect.top + submenuRect.height + areaPadding,
+            right: menuRect.right + submenuRect.width + areaPadding
         };
 
         let position = {};
@@ -211,11 +211,11 @@ export default class SubMenu extends AbstractMenu {
                 );
             } else {
                 // Top position
-                position.bottom = 0;
+                position.bottom = `-${getComputedStyle(this.subMenu).paddingBottom}`;
             }
         } else {
             // Bottom position
-            position.top = 0;
+            position.top = `-${getComputedStyle(this.subMenu).paddingTop}`;
         }
 
         // Horizontal positioning
