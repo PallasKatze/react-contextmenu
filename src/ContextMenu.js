@@ -9,6 +9,14 @@ import SubMenu from './SubMenu';
 import { hideMenu } from './actions';
 import { cssClasses, callIfExists, store } from './helpers';
 
+const isOwnNode = (node) => {
+    if (node instanceof Node) {
+        return node.closest(`.${cssClasses.menu}`);
+    }
+
+    return false;
+};
+
 export default class ContextMenu extends AbstractMenu {
     static propTypes = {
         id: PropTypes.string.isRequired,
@@ -113,6 +121,10 @@ export default class ContextMenu extends AbstractMenu {
     }
 
     handleHide = (e) => {
+        if (e.type === 'contextmenu' && isOwnNode(e.target)) {
+            return;
+        }
+
         if (this.state.isVisible && (!e.detail || !e.detail.id || e.detail.id === this.props.id)) {
             this.unregisterHandlers();
             this.setState({ isVisible: false, selectedItem: null, forceSubMenuOpen: false });
@@ -121,7 +133,9 @@ export default class ContextMenu extends AbstractMenu {
     }
 
     handleOutsideClick = (e) => {
-        if (!this.menu.contains(e.target)) hideMenu();
+        if (!isOwnNode(e.target)) {
+            hideMenu();
+        }
     }
 
     handleMouseLeave = (event) => {

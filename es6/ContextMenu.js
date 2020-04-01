@@ -19,6 +19,14 @@ import SubMenu from './SubMenu';
 import { hideMenu } from './actions';
 import { cssClasses, callIfExists, store } from './helpers';
 
+var isOwnNode = function isOwnNode(node) {
+    if (node instanceof Node) {
+        return node.closest('.' + cssClasses.menu);
+    }
+
+    return false;
+};
+
 var ContextMenu = function (_AbstractMenu) {
     _inherits(ContextMenu, _AbstractMenu);
 
@@ -59,6 +67,10 @@ var ContextMenu = function (_AbstractMenu) {
         };
 
         _this.handleHide = function (e) {
+            if (e.type === 'contextmenu' && isOwnNode(e.target)) {
+                return;
+            }
+
             if (_this.state.isVisible && (!e.detail || !e.detail.id || e.detail.id === _this.props.id)) {
                 _this.unregisterHandlers();
                 _this.setState({ isVisible: false, selectedItem: null, forceSubMenuOpen: false });
@@ -67,7 +79,9 @@ var ContextMenu = function (_AbstractMenu) {
         };
 
         _this.handleOutsideClick = function (e) {
-            if (!_this.menu.contains(e.target)) hideMenu();
+            if (!isOwnNode(e.target)) {
+                hideMenu();
+            }
         };
 
         _this.handleMouseLeave = function (event) {

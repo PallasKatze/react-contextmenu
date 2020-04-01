@@ -71,6 +71,8 @@ var ContextMenuTrigger = function (_Component) {
             _this.handleContextClick(event);
             callIfExists(_this.props.attributes.onContextMenu, event);
         }, _this.handleContextClick = function (event) {
+            var nested = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
             if (_this.props.disable) return;
 
             event.preventDefault();
@@ -79,7 +81,9 @@ var ContextMenuTrigger = function (_Component) {
             var x = event.clientX || event.touches && event.touches[0].pageX;
             var y = event.clientY || event.touches && event.touches[0].pageY;
 
-            hideMenu();
+            if (!nested) {
+                hideMenu();
+            }
 
             var data = callIfExists(_this.props.collect, _this.props);
             var showMenuConfig = {

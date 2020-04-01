@@ -88,7 +88,7 @@ export default class ContextMenuTrigger extends Component {
         callIfExists(this.props.attributes.onContextMenu, event);
     }
 
-    handleContextClick = (event) => {
+    handleContextClick = (event, nested = false) => {
         if (this.props.disable) return;
 
         event.preventDefault();
@@ -97,7 +97,9 @@ export default class ContextMenuTrigger extends Component {
         const x = event.clientX || (event.touches && event.touches[0].pageX);
         const y = event.clientY || (event.touches && event.touches[0].pageY);
 
-        hideMenu();
+        if (!nested) {
+            hideMenu();
+        }
 
         let data = callIfExists(this.props.collect, this.props);
         let showMenuConfig = {

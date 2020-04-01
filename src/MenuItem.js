@@ -18,7 +18,8 @@ export default class MenuItem extends Component {
         selected: PropTypes.bool,
         itemRef: PropTypes.func,
         onMouseMove: PropTypes.func,
-        onMouseLeave: PropTypes.func
+        onMouseLeave: PropTypes.func,
+        onContextMenu: PropTypes.func
     };
 
     static defaultProps = {
@@ -32,7 +33,8 @@ export default class MenuItem extends Component {
         selected: false,
         itemRef: () => null,
         onMouseMove: () => null,
-        onMouseLeave: () => null
+        onMouseLeave: () => null,
+        onContextMenu: () => null
     };
 
     handleClick = (event) => {
@@ -75,7 +77,7 @@ export default class MenuItem extends Component {
                 aria-orientation={divider ? 'horizontal' : null}
                 ref={this.saveRef}
                 onMouseMove={this.props.onMouseMove} onMouseLeave={this.props.onMouseLeave}
-                onTouchEnd={this.handleClick} onClick={this.handleClick}>
+                onTouchEnd={this.handleClick} onClick={this.handleClick} onContextMenu={this.props.onContextMenu}>
                 {divider ? null : children}
             </div>
         );

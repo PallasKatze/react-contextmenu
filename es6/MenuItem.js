@@ -72,7 +72,7 @@ var MenuItem = function (_Component) {
                     'aria-orientation': divider ? 'horizontal' : null,
                     ref: this.saveRef,
                     onMouseMove: this.props.onMouseMove, onMouseLeave: this.props.onMouseLeave,
-                    onTouchEnd: this.handleClick, onClick: this.handleClick }),
+                    onTouchEnd: this.handleClick, onClick: this.handleClick, onContextMenu: this.props.onContextMenu }),
                 divider ? null : children
             );
         }
@@ -92,7 +92,8 @@ MenuItem.propTypes = {
     selected: PropTypes.bool,
     itemRef: PropTypes.func,
     onMouseMove: PropTypes.func,
-    onMouseLeave: PropTypes.func
+    onMouseLeave: PropTypes.func,
+    onContextMenu: PropTypes.func
 };
 MenuItem.defaultProps = {
     disabled: false,
@@ -113,6 +114,9 @@ MenuItem.defaultProps = {
         return null;
     },
     onMouseLeave: function onMouseLeave() {
+        return null;
+    },
+    onContextMenu: function onContextMenu() {
         return null;
     }
 };
