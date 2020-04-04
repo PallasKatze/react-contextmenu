@@ -28,7 +28,8 @@ export default class ContextMenu extends AbstractMenu {
         onMouseLeave: PropTypes.func,
         onClick: PropTypes.func,
         onShow: PropTypes.func,
-        style: PropTypes.object
+        style: PropTypes.object,
+        menuRef: PropTypes.func
     };
 
     static defaultProps = {
@@ -39,6 +40,7 @@ export default class ContextMenu extends AbstractMenu {
         onMouseLeave() { return null; },
         onClick() { return null; },
         onShow() { return null; },
+        menuRef: () => null,
         style: {}
     };
 
@@ -200,6 +202,10 @@ export default class ContextMenu extends AbstractMenu {
 
     menuRef = (c) => {
         this.menu = c;
+
+        if (this.props.menuRef) {
+            this.props.menuRef(c);
+        }
     }
 
     render() {

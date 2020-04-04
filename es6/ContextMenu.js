@@ -148,6 +148,10 @@ var ContextMenu = function (_AbstractMenu) {
 
         _this.menuRef = function (c) {
             _this.menu = c;
+
+            if (_this.props.menuRef) {
+                _this.props.menuRef(c);
+            }
         };
 
         _this.state = assign({}, _this.state, {
@@ -247,7 +251,8 @@ ContextMenu.propTypes = {
     onMouseLeave: PropTypes.func,
     onClick: PropTypes.func,
     onShow: PropTypes.func,
-    style: PropTypes.object
+    style: PropTypes.object,
+    menuRef: PropTypes.func
 };
 ContextMenu.defaultProps = {
     className: '',
@@ -266,6 +271,9 @@ ContextMenu.defaultProps = {
         return null;
     },
 
+    menuRef: function menuRef() {
+        return null;
+    },
     style: {}
 };
 export default ContextMenu;
